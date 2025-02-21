@@ -1,0 +1,52 @@
+::: {.application}
+## Application 1: corriger les erreurs
+
+- Ouvrir dans `VSCode` le script `titanic.py` ;
+- Exécuter le script en ligne de commande (`python titanic.py`)[^interactivite] pour détecter les erreurs ;
+- Corriger les deux erreurs qui empêchent la bonne exécution ;
+- Vérifier le fonctionnement du script en utilisant la ligne de commande:
+
+```{.bash filename="terminal"}
+python titanic.py
+```
+
+Le code devrait afficher des sorties.
+
+<details>
+<summary>
+Aide sur les erreurs rencontrées
+</summary>
+
+La première erreur rencontrée est une alerte `FileNotFoundError`,
+la seconde est liée à un _package_.
+
+</details>
+
+
+Il est maintenant temps de *commit* les changements effectués avec `Git`[^2] :
+
+
+```{.bash filename="terminal"}
+git add titanic.py
+git commit -m "Corrige l'erreur qui empêchait l'exécution"
+git push
+```
+
+<!----
+Temps estimé: 3mn
+------>
+
+:::
+
+[^interactivite]: Il est également possible avec `VSCode` d'exécuter le script ligne à ligne
+de manière interactive ligne à ligne (<kbd>MAJ</kbd>+<kbd>ENTER</kbd>). Néanmoins, cela nécessite
+de s'assurer que le _working directory_ de votre console interactive est le bon. Celle-ci se
+lance selon les paramètres préconfigurés de `VSCode` et les votres ne sont peut-être pas les
+mêmes que les notres. Vous pouvez changer le _working directory_ dans le script
+en utilisant le _package_ `os` mais peut-être allez vous découvrir ultérieurement qu'il
+y a de meilleures pratiques...
+[^2]: Essayez de *commit* vos changements à chaque étape de l'exercice, c'est une bonne habitude à prendre.
+
+
+{{< checkpoint appli1 >}}
+

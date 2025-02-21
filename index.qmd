@@ -1,7 +1,7 @@
 ---
 title: Mise en production des projets de data science
 subtitle: |
-    [Cours de 3e année à l'ENSAE]{.blue2}<br>
+    [Cours de 3e année à l'ENSAE (Séances #2 et #3)]{.blue2}<br>
     2024/2025
 author:
     - Romain Avouac
@@ -29,497 +29,43 @@ css: custom.css
 from: markdown+emoji
 ---
 
-# Introduction
+## Rappels séance #1
 
-## Ressources associées
+<br><br>
+_Retrouver les slides précédentes sur [ensae-reproductibilite.github.io/slides/](https://ensae-reproductibilite.github.io/slides/)_
 
-:::: {.columns}
+## Rappels séance #1 {.nonincremental .smaller}
 
-::: {.column width="50%"}
-### Slides
+* Sortir des _notebooks_ pour [__réduire le coût du passage de l'expérimentation à la production__]{.orange}
+  * Adopter des pratiques similaires à celles du monde du développement
+* Suivre les conventions d'un langage et adopter une structure lisible de projet
 
-{{< qrcode https://ensae-reproductibilite.github.io/slides/ qr1 width=400 height=400 >}}
-
-:::
-
-::: {.column width="50%"}
-### Site web
-
-{{< qrcode https://ensae-reproductibilite.github.io/website/ qr2 width=400 height=400 >}}
-
-:::
-
-::::
-
-
-
-
-## Contexte {.nonincremental auto-animate=true}
-
-![](https://minio.lab.sspcloud.fr/lgaliana/generative-art/mise-en-prod/slides-comic.jpg){fig-align="center"}
-
-- [**Qui sommes-nous ?**]{.orange}
-
-
-## Contexte {.nonincremental auto-animate=true}
-
-![](https://minio.lab.sspcloud.fr/lgaliana/generative-art/mise-en-prod/slides-comic.jpg){fig-align="center"}
-
-
-- [**Qui sommes-nous ?**]{.orange}
-    - des [**data scientists**]{.blue2} de l'Insee
-    - frustrés par l'[**approche**]{.blue2} souvent purement [**technique**]{.blue2} de la data science
-    - convaincus que les [**bonnes pratiques de développement**]{.blue2} valent à être enseignées
-
-- {{< fa solid envelope >}} <romain.avouac@insee.fr>, <lino.galiana@insee.fr>
-
-## Qu'est ce qu'un data scientist ?
-
-![](img/sexiest-job.png){fig-align="center" height=250}
-
-- Tendance à la [**spécialisation**]{.orange} : *data analyst*, *data engineer*, *ML Engineer*...
-
-- Rôle d'[**interface**]{.orange} entre métier et équipes techniques
-    - [**Compétences mixtes**]{.blue2} : savoir métier, modélisation, IT
-
-## La notion de mise en production
-
-- [**Mettre en production**]{.orange} : faire [**vivre**]{.blue2} une application dans l'espace de ses [**utilisateurs**]{.blue2}
-    - Notion simple mais mise en oeuvre compliquée !
-
-- [**Dépasser le stade de l'expérimentation**]{.orange}
-    - Comprendre les [**besoins**]{.blue2} des utilisateurs
-    - [**Bonnes pratiques**]{.blue2} de développement
-    - Techniques informatiques d'[**industrialisation**]{.blue2}
-
-## La notion de bonnes pratiques
-
-- [**Origine**]{.blue2} : communauté des développeurs logiciels
-
-- [**Constats**]{.blue2} :
-    - le [_"code est plus souvent lu qu'écrit"_]{.green2} ([Guido Van Rossum](https://fr.wikipedia.org/wiki/Guido_van_Rossum))
-    - la maintenance d'un code est très coûteuse
-
-- [**Conséquence**]{.blue2} : un ensemble de [**règles informelles**]{.orange}, conventionnellement acceptées comme produisant des logiciels [**fiables**]{.orange}, [**évolutifs**]{.orange} et [**maintenables**]{.orange}
-
-## Pourquoi s'intéresser aux bonnes pratiques ?
-
-<br>
-
-L'activité du *datascientist* tend à se rapprocher de celle du développeur :
-
-- projets [**intenses en code**]{.blue2}
-
-- [**projets collaboratifs**]{.blue2} et de grande envergure
-
-- [**complexification**]{.blue2} des données et des [**infrastructures**]{.blue2}
-
-- [**déploiement**]{.blue2} d'applications pour valoriser les modèles
-
-## Contenu du cours {.scrollable .smaller}
-
-- [**Pré-requis**]{.orange}
-    - Introduction au terminal `Linux` ([Linux 101](https://ensae-reproductibilite.github.io/website/chapters/linux-101.html))
-    - [**Contrôle de version**]{.blue2} avec `Git` ([Git _refresher_](https://ensae-reproductibilite.github.io/website/chapters/git.html))
-
-- [**Bonnes pratiques**]{.orange} de développement
-    - [**Travail collaboratif**]{.blue2} avec `Git`
-    - [**Qualité**]{.blue2} du code
-    - [**Structure**]{.blue2} des projets
-    - Traitement des [**données volumineuses**]{.blue2}
-    - Favoriser la [**portabilité**]{.blue2} d'une application
-
-- [**Mise en production**]{.orange}
-    - [**Déploiement**]{.blue2}
-    - [**MLOps**]{.blue2}
-
-## Site web du cours
-
-- [https://ensae-reproductibilite.github.io/website/](https://ensae-reproductibilite.github.io/website/)
-
-- Tout le contenu du cours est en [***open-source***]{.orange}
-    - [GitHub](https://github.com/orgs/ensae-reproductibilite/repositories) {{< fa brands github >}}
-    - *Pull Requests* -> bonus {{< fa comment-dollar >}}
-
-## Modalités pédagogiques
-
-- Apprentissage par la pratique
-    - [Application](https://ensae-reproductibilite.github.io/website/chapters/application.html) : industrialisation d'un projet de ML
-
-- Langage : `Python` {{< fa brands python >}}
-    - Langage [**dominant**]{.blue2} dans le monde de la donnée
-    - Les principes présentés sont [**agnostiques**]{.blue2} au langage
-
-- Environnement d'exécution : [SSP Cloud](https://datalab.sspcloud.fr/)
-    - Environnement de développement [**normalisé**]{.blue2}
-    - Véritable environnement de [**production**]{.blue2}
-    - Acquisition des [**bonnes pratiques**]{.blue2}
-
-## Evaluation
-
-- [**Objectif**]{.orange} : mise en pratique [**réaliste**]{.orange} des notions étudiées
-    - [**Problématique métier**]{.blue2}
-    - [**Données réelles**]{.blue2}
-
-- Evaluation en [**deux parties**]{.orange} :
-    - [**En groupe**]{.blue2} : [**projet**]{.blue2} à construire selon 4 "parcours"
-    - [**Individuel**]{.blue2} : [**revue de code**]{.blue2} d'un autre projet
-
-
-
-
-
-
-# Partie :one: : bonnes pratiques de développement
-
-## Plan de la partie
-
-:one: [**Travail collaboratif**]{.blue2} avec `Git`
-
-:two: [**Qualité**]{.blue2} du code
-
-:three: [**Structure**]{.blue2} des projets
-
-:four: Traitement des [**données volumineuses**]{.blue2}
-
-:five: Favoriser la [**portabilité**]{.blue2} d'une application
-
-
-
-
-
-# :one: Le travail collaboratif avec `Git`
-
-## Pourquoi utiliser Git ?
-
-![Source : [ThinkR](https://thinkr.fr/travailler-avec-git-via-rstudio-et-versionner-son-code/)](img/timeline.png){fig-align="center" height=475}
-
-## Concepts essentiels
-
-![Source : [fabacademy.org](http://fabacademy.org/2021/labs/bhubaneswar/students/deepak-chaudhry/ia_PPFP.html)](img/gitallinone.png){height="400" fig-align="center"}
-
-## Bonnes pratiques {auto-animate=true .smaller}
-
-__Que versionne-t-on ?__
-
-- Essentiellement du [**code source**]{.orange}
-- [__Pas d'outputs__]{.orange} (fichiers `.html`, `.pdf`, modèles...)
-- [__Pas de données__]{.orange}, d'informations locales ou sensibles
-
-. . .
-
-:::{.callout-note}
-
-Pour définir des règles qui évitent de committer tel ou tel fichier, on utilise
-un fichier nommé __`.gitignore`__.
-
-Si on mélange du code et des éléments
-annexes (_output_, données...) dans un même dossier, il [__faut consacrer du temps à ce fichier__]{.orange}.
-
-N'hésitez pas à y ajouter des règles conservatrices (par exemple `*.csv`, `*.parquet`).
-:::
-
-## Bonnes pratiques {auto-animate=true .smaller}
-
-__Format des commits__
-
-::: {layout="[40,60]"}
-
-- [**Fréquence**]{.orange}
-    - Aussi souvent que possible
-    - Le lot de modifications doit "faire sens"
-- [**Messages**]{.orange}
-    - Courts et informatifs (comme un titre de mail)
-    - Décrire [**le pourquoi plutôt que le comment**]{.orange} dans le texte
-
-![](img/titre-commit.png)
-
-:::
-
-## Outils pour le travail collaboratif
-
-- L'éco-système `Git` [**facilite** le travail collaboratif]{.blue2}
-    - `Git` {{< fa brands git-alt >}} : modèle des [__branches__]{.orange}
-    - `GitHub` {{< fa brands github >}} / `GitLab` {{< fa brands gitlab >}} : [**Issues**, **Pull Requests**, **Forks**]{.orange}
-
-## Le modèle des branches
-
-::: {layout="[[-1], [1], [-1]]"}
-![Source : [lutece.paris.fr](https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki&view=page&page_name=git&language=fr)](img/branches.png){fig-align="center" height=350}
-:::
-
-## Les outils de contribution
-
-- [***Issue***]{.orange} : soumettre un [**problème**]{.blue2} ou une [**suggestion**]{.blue2} aux développeurs d'un projet
-
-- [***Pull Request***]{.orange} : proposer aux développeurs d'un projet d'[**intégrer des modifications**]{.blue2}
-
-- [***Fork***]{.orange} : faire la [**copie**]{.blue2} d'un projet existant dans son espace personnel
-    - Indispensable pour faire une *pull request* à un dépôt sur lequel on n'a pas les droits
-
-## Une organisation courante : le *GitHub flow*
-
-![](img/ghflow.png)
-
-Description plus détaillée : [ici](https://docs.github.com/en/get-started/quickstart/github-flow)
-
-
-
-
-
-
-
-# :two: Qualité du code
-
-## Enjeux
-
-- D'une vision utilitariste du code à une vision du code comme [**outil de communication**]{.orange}
-
-- Favoriser la [**lisibilité**]{.orange} et la [**maintenabilité**]{.orange}
-
-- Faciliter la [**réutilisation**]{.orange}
-
-## Principes généraux
-
-- Adopter les [**standards communautaires**]{.orange}
-
-- Utiliser des [**fonctions**]{.orange}
-
-- [**(Auto-)documenter**]{.orange} son code
-
-## :one: Standards communautaires
-
-> *"Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread"*
->
-> [Tidyverse Style Guide (R)](https://style.tidyverse.org/)
-
-- [**Python**]{.blue2} : [PEP8](https://peps.python.org/pep-0008/), [PEP 257](https://peps.python.org/pep-0257/)
-    - Des règles *opinionated*, mais [**conventionnelles**]{.blue2}
-
-- La [**cohérence intra-projet**]{.orange} doit toujours primer
-
-## :one: Standards communautaires - Outils {.smaller}
-
-- [**Linters**]{.blue2} : diagnostic de qualité du code
-    - [Pylint](https://github.com/PyCQA/pylint)
-
-- [**Formatters**]{.blue2} : application automatique des standards
-    - [Black](https://github.com/psf/black)
-
-. . .
+* Adopter une structure de code (niveau micro) et de projet (niveau macro) lisible
 
 ::: {.callout-tip}
-- [Exemples d’erreurs repérées]{.blue2} par un _linter_ :
-    + lignes de code trop longues ou mal indentées, parenthèses non équilibrées, noms de fonctions mal construits…
-- [Exemples d’erreurs __non__ repérées]{.blue2} par un _linter_ :
-    + fonctions mal utilisées, arguments mal spécifiés, structure du code incohérente, code insuffisamment documenté…
-:::
+## En résumé
 
-## :two: Utiliser des fonctions {.smaller}
-
-::: {.callout-important}
-## Règle d'or
-
-Il faut utiliser une [**fonction**]{.red2} dès qu'on utilise une même
-portion de code plus de deux fois ([**_don't repeat yourself_ (DRY)**]{.red2})
-:::
-
-- [**Limite les risques d'erreurs**]{.orange} liés aux copier/coller
-- Rend le code [**plus lisible**]{.orange} et [**plus compact**]{.orange}
-- [**Un seul endroit**]{.orange} du code à modifier lorsqu'on souhaite modifier le traitement
-- Facilite la [**réutilisation**]{.orange} et la [**documentation**]{.orange} du code !
-
-. . .
-
-::: {.callout-tip}
-## Règles pour écrire des fonctions **pertinentes**
-
-- Une tâche = une fonction
-- Une tâche complexe = un enchaînement de fonctions réalisant chacune une tâche simple
-- Limiter l'utilisation de variables globales.
+Les bonnes pratiques sont le premier pas vers des projets plus évolutifs, plus fiables et plus simples à maintenir
 
 :::
 
-## :three: Documenter son code
+## Rappels séance #1 {.nonincremental}
 
-- Documenter le [__pourquoi__]{.orange} plutôt que le [__comment__]{.orange}
+Converger vers ce modèle :
 
-- Privilégier l'[**auto-documentation**]{.orange} via des nommages pertinents
+![](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/img/environment_clean.png)
 
-. . .
+## Rappels séance #1 {.nonincremental}
 
-::: {.callout-tip}
-## Comment bien documenter un script ?
+Converger vers un modèle où on distingue :
 
-- [**Minimum**]{.orange} 🚦 : décrire ce que le code fait au début du script
-- [**Bien**]{.orange} 👍 : commenter les parties "délicates" du code
-- [**Idéal**]{.orange} 💪 : documenter ses fonctions avec des *docstrings*
-:::
-
-
-
-
-
-# :three: Structure des projets
-
-## Enjeux
-
-- Favoriser la [**lisibilité**]{.orange} et la [**maintenabilité**]{.orange}
-
-- Enjeux spécifiques à la data science
-    - [**Expérimentation**]{.blue2}
-    - [**Non-linéarité**]{.blue2}
-    - [**Reproductibilité**]{.blue2}
-
-## Principes généraux
-
-- Favoriser une [**structure modulaire**]{.blue2} selon l'état du projet
-    - [**Exploration**]{.orange} : travail à partir de [**notebooks**]{.blue2}
-    - [**Industrialisation**]{.orange} : adopter une structure type [**package**]{.blue2}
-
-- Adopter les [**standards communautaires**]{.orange}
-
-- [**(Auto-)documenter**]{.orange} son projet
-
-## :one: Phase d'exploration : *notebooks*
-
-- [**Avantages**]{.orange}
-  - [**Interactivité**]{.blue2} : idéal pour l'expérimentation
-  - [**Communication**]{.blue2} : diffusion de résultats sous forme exécutable
-
-- [**Inconvénients**]{.orange}
-  - [**Reproductibilité**]{.blue2} généralement limitée
-  - Pas adaptés pour l'[**automatisation**]{.blue2}
-  - Mal gérés par le [**contrôle de version**]{.blue2}
-
-## :two: Industrialisation : structure modulaire
-
-- [**Premier niveau**]{.orange} : structuration du [**code**]{.orange}
-
-- Adopter une structure type [**package**]{.orange}
-  - Des [**fonctions**]{.blue2} rangées dans des [**modules**]{.blue2}
-  - Un script principal (`main`) [**orchestre**]{.blue2} les traitements
-  - Utilisation de [**chemins relatifs**]{.blue2} uniquement
-
-## :two: Industrialisation : structure modulaire
-
-- [**Deuxième niveau**]{.orange} : structuration du [**projet**]{.orange}
-
-. . .
-
-![](img/project-modularity.png){fig-align="center" height=350}
-
-## :three: Adopter les standards communautaires
-
-- [**Templates**]{.orange} de projets : [**Cookiecutters**]{.blue2}
-    - [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/)
-    - [Cookiecutter Python Package](https://py-pkgs.org/03-how-to-package-a-python#creating-a-package-structure)
-
-- La [**cohérence intra-projet**]{.orange} doit toujours primer
-
-## :four: Documenter son projet
-
-- Favoriser l'[**auto-documentation**]{.orange} via des nommages pertinents
-
-## L'auto-documentation : illustration
-
-```
-├── report.ipynb
-├── correlation.png
-├── data.csv
-├── data2.csv
-├── fig1.png
-├── figure 2 (copy).png
-├── report.pdf
-├── partial data.csv
-├── script.py
-└── script_final.py
-```
-
-- Difficile de rentrer dans le projet...
-    - Tout au [**même niveau**]{.blue2}
-    - Titres [**non informatifs**]{.blue2}
-
-## L'auto-documentation : illustration
-
-```
-├── data
-│   ├── raw
-│   │   ├── data.csv
-│   │   └── data2.csv
-│   └── interim
-│       └── partial data.csv
-├── notebooks
-│   └── report.ipynb
-├── src
-|   ├── script.py
-│   └── script_final.py
-└── reports
-    ├── report.pdf
-    └── figures
-        ├── fig1.png
-        ├── figure 2 (copy).png
-        ├── figure10.png
-        └── correlation.png
-```
-
-- Une structure déjà plus lisible !
-    - Les titres restent [**non informatifs**]{.blue2}
-
-## L'auto-documentation : illustration
-
-```
-├── data
-│   ├── raw
-│   │   ├── dpe_logement_202103.csv
-│   │   └── dpe_logement_202003.csv
-│   └── interim
-│       └── dpe_logement_merged_preprocessed.csv
-├── notebooks
-│   └── report.ipynb
-├── src
-|   ├── main.R
-|   ├── preprocessing.R
-│   └── generate_plots.R
-└── reports
-    ├── report.pdf
-    └── figures
-        ├── histogram_energy_diagnostic.png
-        ├── barplot_consumption_pcs.png
-        ├── correlation_matrix.png
-        └── correlation.png
-```
-
-- Une structure [**auto-documentée**]{.blue2}
-    - On comprend le projet sans même lire le code
-
-## :four: Documenter son projet
-
-- Favoriser l'[**auto-documentation**]{.orange} via des nommages pertinents
-
-- Inclure un fichier `README.md` à la racine du projet
-    - [**Carte d'identité**]{.blue2} et [**vitrine**]{.blue2} du projet
-    - Présente le [**contexte**]{.blue2} et le [**fonctionnement**]{.blue2} du projet
-
-- Si [**open-source**]{.orange} : inclure une [licence](https://docs.github.com/fr/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
-
-
-
-
-
-
-# Application
-
-## Bonnes pratiques de développement
-
-- Consignes sur le [site du cours](https://ensae-reproductibilite.github.io/website/chapters/application.html)
-    - Partie :zero: : initialisation de l'environnement et du projet
-    - Partie :one: : qualité du code
-    - Partie :two: : adoption d'une structure modulaire
-
-
-
-
+* [__Code__]{.orange}: stocké sur `Git`
+* [__Configuration__]{.orange}:
+    * Environnement logiciel: à part (cf. séance #4)
+    * Variables d'environnement: fichier `.env` à part, non exposé grâce à `dotenv`
+* [__Données__]{.orange}:
+    * Exclues du contrôle de version
+    * Des formats plus adaptés que d'autres
 
 
 # :four: Traitement des données volumineuses
@@ -685,10 +231,42 @@ portion de code plus de deux fois ([**_don't repeat yourself_ (DRY)**]{.red2})
     - ... qui [**facilite la mise en production**]{.blue2} !
 
 
+# Illustration par la pratique
+
+## Objectif {.nonincremental}
+
+* On part d'un projet n'ayant pas suivi les bonnes pratiques...
+
+![](/drawio/starting_point_nobg.png){width=30%}
 
 
+## Objectif {.nonincremental}
 
 
+* ... on finira le semestre avec un projet très ambitieux
+
+* A l'arrivée:
+
+![](/drawio/end_point_nobg.png)
+
+
+## Objectif {.nonincremental}
+
+* Les premières applications sont les plus chronophages: rendre le projet conforme aux bonnes pratiques
+  * Indispensable pour pouvoir progresser plus tard
+
+![](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/img/environment_clean.png)
+
+
+## Et la suite ?
+
+Tout le contenu du cours est disponible est librement accessible sur:
+
+👉️ [https://ensae-reproductibilite.github.io/](https://ensae-reproductibilite.github.io)
+
+
+<!-----------
+Prochaine publi
 
 # :five: Portabilité
 
@@ -1268,3 +846,5 @@ jobs:
 
 - ⚠️ Ce cours présente une [**vision technique**]{.orange} du sujet
     - Les changements nécessaires sont plus larges !
+
+----->

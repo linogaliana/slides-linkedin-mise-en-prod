@@ -1,0 +1,75 @@
+::: {.application}
+
+## Application 10: packagisation _(optionnel)_
+
+- Renommer le dossier `titanicml` pour respecter la nouvelle
+arborescence ;
+- Créer un fichier `pyproject.toml` sur cette base ;
+
+```{python}
+#| eval: false
+#| code-summary: "pyproject.toml"
+#| filename: "pyproject.toml"
+[tool.poetry]
+name = "titanicml"
+version = "0.0.1"
+description = "Awesome Machine Learning project"
+authors = ["Daffy Duck <daffy.duck@fauxmail.fr>", "Mickey Mouse"]
+license = "MIT"
+readme = "README.md"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "WARNING"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+```
+
+- Créer le dossier `docs` et mettre les fichiers indiqués dedans
+- Dans `titanicml/`, créer un fichier `__init__.py`[^init]
+
+```{python}
+#| eval: false
+#| code-summary: "__init__.py"
+#| filename: "__init__.py"
+from .data.import_data import (
+    split_and_count
+)
+from .pipeline.build_pipeline import (
+    split_train_test,
+    create_pipeline
+)
+from .models.train_evaluate import (
+    evaluate_model
+)
+__all__ = [
+    "split_and_count",
+    "split_train_test",
+    "create_pipeline",
+    "evaluate_model"
+]
+```
+
+- Installer le package en local avec `pip install -e .`
+- Modifier le contenu de `docs/main.py` pour importer les fonctions de notre _package_ `titanicml` et tester en
+ligne de commande notre fichier `main.py`
+:::
+
+[^init]: Le fichier `__init__.py` indique à `Python` que le dossier
+est un _package_. Il permet de proposer certaines configurations
+lors de l'import du _package_. Il permet également de contrôler
+les objets exportés (c'est-à-dire mis à disposition de l'utilisateur)
+par le _package_ par rapport aux objets internes au _package_.
+En le laissant vide, nous allons utiliser ce fichier
+pour importer l'ensemble des fonctions de nos sous-modules.
+Ce n'est pas la meilleure pratique mais un contrôle plus fin des
+objets exportés demanderait un investissement qui ne vaut, ici, pas
+le coût.
+
+
+{{< checkpoint appli10 >}}
+
