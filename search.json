@@ -7,171 +7,164 @@
     "text": "Rappels séance #1\n Retrouver les slides précédentes sur ensae-reproductibilite.github.io/slides/"
   },
   {
-    "objectID": "index.html#rappels-séance-1-1",
-    "href": "index.html#rappels-séance-1-1",
+    "objectID": "index.html#rappel-séance-4",
+    "href": "index.html#rappel-séance-4",
     "title": "Mise en production des projets de data science",
-    "section": "Rappels séance #1",
-    "text": "Rappels séance #1\n\nSortir des notebooks pour réduire le coût du passage de l’expérimentation à la production\n\nAdopter des pratiques similaires à celles du monde du développement\n\nSuivre les conventions d’un langage et adopter une structure lisible de projet\nAdopter une structure de code (niveau micro) et de projet (niveau macro) lisible\n\n\n\n\n\n\n\nEn résumé\n\n\nLes bonnes pratiques sont le premier pas vers des projets plus évolutifs, plus fiables et plus simples à maintenir"
+    "section": "Rappel séance #4",
+    "text": "Rappel séance #4\n\nOn a trouvé comment construire une reproduction de l’ordinateur qui faisait tourner notre code\n\nAvec Docker \n\n\n\n\nOn ne va pas demander à chaque utilisateur de notre application de faire tourner ce code\n\n\n\n\nIl nous reste à automatiser la livraison de celui-ci"
   },
   {
-    "objectID": "index.html#rappels-séance-1-2",
-    "href": "index.html#rappels-séance-1-2",
+    "objectID": "index.html#quest-ce-que-le-format-yaml",
+    "href": "index.html#quest-ce-que-le-format-yaml",
     "title": "Mise en production des projets de data science",
-    "section": "Rappels séance #1",
-    "text": "Rappels séance #1\nConverger vers ce modèle :"
+    "section": "Qu’est-ce que le format YAML ?",
+    "text": "Qu’est-ce que le format YAML ?\n\nYAML Ain’t Markup Language\n\nLangage de sérialisation de données\nStructure expressive mais lisible\n\n\n\n---\nsource: ambient-it.net\ndomain:\n - devops\ntutorial:\n  - yaml:\n      name: YAML Ain't Markup Language\n      born: 2001\n  - json:\n      name: JavaScript Object Notation\n      born: 2001\n  - xml:\n      name: Extensible Markup Language\n      born: 1996\n---"
   },
   {
-    "objectID": "index.html#rappels-séance-1-3",
-    "href": "index.html#rappels-séance-1-3",
+    "objectID": "index.html#pourquoi-sintéresser-au-yaml",
+    "href": "index.html#pourquoi-sintéresser-au-yaml",
     "title": "Mise en production des projets de data science",
-    "section": "Rappels séance #1",
-    "text": "Rappels séance #1\nConverger vers un modèle où on distingue :\n\nCode: stocké sur Git\nConfiguration:\n\nEnvironnement logiciel: à part (cf. séance #4)\nVariables d’environnement: fichier .env à part, non exposé grâce à dotenv\n\nDonnées:\n\nExclues du contrôle de version\nDes formats plus adaptés que d’autres"
+    "section": "Pourquoi s’intéresser au YAML ?",
+    "text": "Pourquoi s’intéresser au YAML ?\n\nOutil standard pour les fichiers de configuration\n\nThe rise of the YAML engineer\n\nSimplicité et puissance du paradigme déclaratif\n\nOn décrit l’état final souhaité\nL’implémentation est laissée au moteur sous-jacent\n\n\n\nkind: Pod\nmetadata:\n  name: my-api-pod\nspec:\n  containers:\n  - name: api\n    image: my_dh_account/my_fast_api:0.0.1\n    env:\n    - name: MODEL\n      value: deepseek-ai/DeepSeek-R1"
   },
   {
-    "objectID": "index.html#the-obligatory-intro-slide",
-    "href": "index.html#the-obligatory-intro-slide",
+    "objectID": "index.html#yaml-vs.-json",
+    "href": "index.html#yaml-vs.-json",
     "title": "Mise en production des projets de data science",
-    "section": "“The obligatory intro slide”",
-    "text": "“The obligatory intro slide”\n\n\n\nSource : motherduck.com"
+    "section": "YAML vs. JSON",
+    "text": "YAML vs. JSON\n\nYAML est un superset de JSON\n\nTout fichier JSON valide est un fichier YAML valide\n\nStructure basée sur l’indentation\n\nFavorise la lisibilité\nPlus prône aux erreurs\n\n\n\n\n\n\n\n\n\nuser:\n  name: Alice\n  age: 30\n\n\n{\n  \"user\": {\n    \"name\": \"Alice\",\n    \"age\": 30\n  }\n}\n\n\n\n\nConvertisseurs : yaml-to-json, json-to-yaml"
   },
   {
-    "objectID": "index.html#enjeux",
-    "href": "index.html#enjeux",
+    "objectID": "index.html#caractéristiques-dun-fichier-yaml",
+    "href": "index.html#caractéristiques-dun-fichier-yaml",
     "title": "Mise en production des projets de data science",
-    "section": "Enjeux",
-    "text": "Enjeux\n\nTendance à la massification des données\n\nRelatif aux capacités de stockage et de traitement\n\n\n\n\n\n\nSource : AI with Python"
+    "section": "Caractéristiques d’un fichier YAML",
+    "text": "Caractéristiques d’un fichier YAML\n\nExtension : .yaml ou .yml\nStructure hiérarchique basée sur des paires clé-valeur\nDifférents types à disposition (numériques, strings, booléens, listes)\n\n\nkind: Pod\nmetadata:\n  name: my-api-pod\nspec:\n  containers:\n  - name: api\n    image: my_dh_account/my_fast_api:0.0.1\n    env:\n    - name: MODEL\n      value: deepseek-ai/DeepSeek-R1\n    - name: DEBUG\n      value: true\n    ports:\n    - containerPort: 8000"
   },
   {
-    "objectID": "index.html#choisir-des-technologies-adaptées",
-    "href": "index.html#choisir-des-technologies-adaptées",
+    "objectID": "index.html#validation-et-erreurs-fréquentes",
+    "href": "index.html#validation-et-erreurs-fréquentes",
     "title": "Mise en production des projets de data science",
-    "section": "Choisir des technologies adaptées",
-    "text": "Choisir des technologies adaptées\n1️⃣ Infrastructures de données\n\n2️⃣ Formats de données\n\n\n3️⃣ Frameworks de traitement de données"
+    "section": "Validation et erreurs fréquentes",
+    "text": "Validation et erreurs fréquentes\n\nPrincipale erreur : mauvaise indentation\n\nUtiliser 2 espaces (pas de tabulation!)\n\nOutils de validation :\n\nSupport natif dans la plupart des IDE\nLinters : YAMLlint"
   },
   {
-    "objectID": "index.html#infrastructures-historique",
-    "href": "index.html#infrastructures-historique",
+    "objectID": "index.html#yaml-et-lapproche-gitops",
+    "href": "index.html#yaml-et-lapproche-gitops",
     "title": "Mise en production des projets de data science",
-    "section": "1️⃣ Infrastructures : historique",
-    "text": "1️⃣ Infrastructures : historique\n\nHistoriquement : stockage dans des bases de données\n80’s : essor des bases de données relationnelles\n\nModèle de la data warehouse\n\n\n\n\n\n\nSource : corporatefinanceinstitute.com"
+    "section": "YAML et l’approche GitOps",
+    "text": "YAML et l’approche GitOps\n\nLe YAML est le langage privilégié de l’approche GitOps\n\nLes manifestes sont déclarés en YAML (paradigme infrastructure as code)\nLes manifestes sont stockés sur un dépôt Git (approche GitOps)\n\nCette approche a de nombreux avantages :\n\nReproductibilité\nTraçabilité\nAutomatisation"
   },
   {
-    "objectID": "index.html#limite-des-data-warehouses",
-    "href": "index.html#limite-des-data-warehouses",
+    "objectID": "index.html#un-sujet-large",
+    "href": "index.html#un-sujet-large",
     "title": "Mise en production des projets de data science",
-    "section": "1️⃣ Limite des data warehouses",
-    "text": "1️⃣ Limite des data warehouses\n\nPeu adaptées aux données big data\n\nPassage à l’échelle coûteux\nLimitées aux données structurées\n\n2010’s : modèle du data lake"
+    "section": "Un sujet large",
+    "text": "Un sujet large\n\nLes questions essentielles à se poser :\n\nQuel est le format adapté pour valoriser le projet ?\nQuelle infrastructure de production ?\nComment automatiser le processus de déploiement ?\nComment suivre l’application en production ?\n\nDe nombreuses choix possibles\n\nPrésentation des concepts et outils standards"
   },
   {
-    "objectID": "index.html#le-data-lake",
-    "href": "index.html#le-data-lake",
+    "objectID": "index.html#formats-de-valorisation",
+    "href": "index.html#formats-de-valorisation",
     "title": "Mise en production des projets de data science",
-    "section": "1️⃣ Le data lake",
-    "text": "1️⃣ Le data lake\n\nUn stockage peu coûteux fait pour des données\n\nVolumineuses\nBrutes\nIssues de sources variées\n\n\n\n\n\n\nSource : qlik.com"
+    "section": "Formats de valorisation",
+    "text": "Formats de valorisation\n\nCritères à prendre en compte :\n\nQuels sont les utilisateurs potentiels ?\nQuels sont leurs besoins ?\n\nExemple : mise à disposition d’un LLM\n\n\n\n\n\nSource : ubuntu.com"
   },
   {
-    "objectID": "index.html#le-stockage-objet",
-    "href": "index.html#le-stockage-objet",
+    "objectID": "index.html#cas-dusage",
+    "href": "index.html#cas-dusage",
     "title": "Mise en production des projets de data science",
-    "section": "1️⃣ Le stockage objet",
-    "text": "1️⃣ Le stockage objet\n\nStandard des data lakes dans le cloud\n\nImplémentation dominante : Amazon S3\nImplémentation open-source : MinIO\n\n\n\n\n\n\nSource : min.io"
+    "section": "Cas d’usage",
+    "text": "Cas d’usage\n\nServir un modèle de ML via une API"
   },
   {
-    "objectID": "index.html#formats-de-données",
-    "href": "index.html#formats-de-données",
+    "objectID": "index.html#les-apis",
+    "href": "index.html#les-apis",
     "title": "Mise en production des projets de data science",
-    "section": "2️⃣ Formats de données",
-    "text": "2️⃣ Formats de données\n\n\nLe choix d’un format de données répond à un arbitrage entre plusieurs critères :\n\nPublic cible\nFinalité (traitement, analyse, diffusion)\nVolumétrie\nInteropérabilité"
+    "section": "Les APIs",
+    "text": "Les APIs\n\nUne API (application programming interface ou « interface de programmation d’application ») est une interface logicielle qui permet de « connecter » un logiciel ou un service à un autre logiciel ou service afin d’échanger des données et des fonctionnalités.\nCNIL\n\n\nDéfinition peu informative\n\nPython, scikit-learn, Docker, etc. sont des APIs\nEn pratique, on signifie généralement une API REST"
   },
   {
-    "objectID": "index.html#limites-des-formats-usuels",
-    "href": "index.html#limites-des-formats-usuels",
+    "objectID": "index.html#les-apis-rest",
+    "href": "index.html#les-apis-rest",
     "title": "Mise en production des projets de data science",
-    "section": "2️⃣ Limites des formats usuels",
-    "text": "2️⃣ Limites des formats usuels\n\nLes formats usuels (CSV, JSON, XML) sont utiles pour :\n\nLe traitement de faibles volumes de données\nLa diffusion de données\n\nLimités pour le traitement de données volumineuses\n\nNon-compressés : espace disque élevé\nOrientés ligne : peu adaptés aux traitements analytiques"
+    "section": "Les APIs REST",
+    "text": "Les APIs REST\n\nAPI RESTful : API conforme au style d’architecture REST\n\nCommunication via le protocole HTTP\n\nEn pratique :\n\nOn requête un endpoint (ex : l’API de la BAN)\nAvec des requêtes HTTP (GET, POST, etc.) (ex : rues contenant “comédie”)"
   },
   {
-    "objectID": "index.html#orientation-ligne-vs.-orientation-colonne",
-    "href": "index.html#orientation-ligne-vs.-orientation-colonne",
+    "objectID": "index.html#architecture-cible",
+    "href": "index.html#architecture-cible",
     "title": "Mise en production des projets de data science",
-    "section": "2️⃣ Orientation ligne vs. orientation colonne",
-    "text": "2️⃣ Orientation ligne vs. orientation colonne\n\n\n\nSource : towardsdatascience.com"
+    "section": "Architecture cible",
+    "text": "Architecture cible\n\nConstruire une API pour servir le modèle\n\nInterface entre l’utilisateur et le modèle entraîné"
   },
   {
-    "objectID": "index.html#parquet-propriétés",
-    "href": "index.html#parquet-propriétés",
+    "objectID": "index.html#environnement-de-production",
+    "href": "index.html#environnement-de-production",
     "title": "Mise en production des projets de data science",
-    "section": "2️⃣ Parquet : propriétés",
-    "text": "2️⃣ Parquet : propriétés\n\nOrienté colonne\n\nAdapté aux traitements analytiques\nConçu pour être écrit une fois mais lu fréquemment\n\nOptimisé\n\nCompression (jusqu’à 87 % moins d’espace qu’un CSV)\nLecture du fichier (jusqu’à 34x plus rapide qu’un CSV)\n\nInteropérable\n\nGestion native des méta-données"
+    "section": "Environnement de production",
+    "text": "Environnement de production\n\nDépend essentiellement de l’infrastructure à disposition\nPropriétés recherchées :\n\nAdapter les ressources (scaler) selon les besoins\nDéploiements reproductibles et automatisés\nMonitoring de l’état de santé des applications\n\nSolution : utiliser un orchestrateur de conteneurs\n\nBase du SSP Cloud : Kubernetes"
   },
   {
-    "objectID": "index.html#parquet-partitionnement",
-    "href": "index.html#parquet-partitionnement",
+    "objectID": "index.html#fonctionnement-de-kubernetes",
+    "href": "index.html#fonctionnement-de-kubernetes",
     "title": "Mise en production des projets de data science",
-    "section": "2️⃣ Parquet : partitionnement",
-    "text": "2️⃣ Parquet : partitionnement\n\nDivision en blocs des données selon un critère\n\nOptimise la lecture pour certaines queries\n\n\n\n\n\n\nSource : datio.com"
+    "section": "Fonctionnement de Kubernetes",
+    "text": "Fonctionnement de Kubernetes\n\n\n\nSource : DBA Consulting Blog"
   },
   {
-    "objectID": "index.html#traitement-in-memory",
-    "href": "index.html#traitement-in-memory",
+    "objectID": "index.html#lapproche-cicd",
+    "href": "index.html#lapproche-cicd",
     "title": "Mise en production des projets de data science",
-    "section": "3️⃣ Traitement in-memory",
-    "text": "3️⃣ Traitement in-memory\n\nParquet ne résout pas tout\n\nL’espace disque est optimisé\nLes données décompressées doivent passer en RAM\n\nLe framework adapté dépend de la volumétrie"
+    "section": "L’approche CI/CD",
+    "text": "L’approche CI/CD\n\nIntégration continue (CI) : chaque commit déclenche un processus “test, build and release”\n\nGitHub  : GitHub Actions\nGitLab  : GitLab CI/CD\n\nDéploiement continu (CD) : les nouvelles releases sont automatiquement déployées\n\nSur le SSP Cloud : ArgoCD"
   },
   {
-    "objectID": "index.html#données-volumineuses",
-    "href": "index.html#données-volumineuses",
+    "objectID": "index.html#ci-implémentation-avec-github-actions",
+    "href": "index.html#ci-implémentation-avec-github-actions",
     "title": "Mise en production des projets de data science",
-    "section": "3️⃣ Données volumineuses",
-    "text": "3️⃣ Données volumineuses\n\nCalcul larger than memory optimisé\n\nArrow : orientation fichier (Parquet)\nDuckDB : orientation base de données (SQL)\n\nAutre avantage : interopérabilité\n\n\n\n\n\nSource : Arrow"
+    "section": "CI : implémentation avec GitHub Actions",
+    "text": "CI : implémentation avec GitHub Actions\n\nPrincipe : commit -&gt; exécution d’une série d’étapes\n\nScript exécuté sur une VM : runner\nMise à disposition d’un output : artifact\n\nMultiples outputs possibles\n\nImage Docker\nSlides\nSite internet"
   },
   {
-    "objectID": "index.html#données-massives",
-    "href": "index.html#données-massives",
+    "objectID": "index.html#ci-anatomie-dun-fichier-de-ci",
+    "href": "index.html#ci-anatomie-dun-fichier-de-ci",
     "title": "Mise en production des projets de data science",
-    "section": "3️⃣ Données massives",
-    "text": "3️⃣ Données massives\n\nCalcul distribué sur un cluster de machines\n\nSpark\n\nBase : paradigme MapReduce\n\n\n\n\n\nSource : nd.edu"
+    "section": "CI : anatomie d’un fichier de CI",
+    "text": "CI : anatomie d’un fichier de CI\n\nSpécification : fichier .yaml qui paramétrise le runner\n\n⚠️ Situé dans le dossier .github/workflows/\n\n\n\n\n\n.github/workflows/ci.yaml\n\nname: Build Docker image\n\non:\n  push:\n    branches:\n      - main\n    tags:\n\njobs:\n  docker:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Set up QEMU\n        uses: docker/setup-qemu-action@v3\n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v3\n      - name: Docker meta\n        id: meta\n        uses: docker/metadata-action@v5\n        with:\n          images: ensae-reproductibilite/api-titanic\n      - name: Login to Docker Hub\n        uses: docker/login-action@v3\n        with:\n          username: ${{ secrets.DOCKERHUB_USERNAME }}\n          password: ${{ secrets.DOCKERHUB_TOKEN }}\n      - name: Build and push\n        uses: docker/build-push-action@v5\n        with:\n          push: true\n          tags: ${{ steps.meta.outputs.tags }}\n          labels: ${{ steps.meta.outputs.labels }}"
   },
   {
-    "objectID": "index.html#en-résumé-pour-traiter-la-volumétrie",
-    "href": "index.html#en-résumé-pour-traiter-la-volumétrie",
+    "objectID": "index.html#cicd-implémentation-sur-kubernetes",
+    "href": "index.html#cicd-implémentation-sur-kubernetes",
     "title": "Mise en production des projets de data science",
-    "section": "En résumé : pour traiter la volumétrie",
-    "text": "En résumé : pour traiter la volumétrie\n\nUtiliser un format de données adapté (Parquet)\nUtiliser des outils informatiques adaptés\n\nSuffisant la plupart du temps : calcul larger than memory optimisé (Arrow / DuckDB)\nSi volumétrie massive : calcul distribué (Spark)"
+    "section": "CI/CD : implémentation sur Kubernetes",
+    "text": "CI/CD : implémentation sur Kubernetes"
   },
   {
-    "objectID": "index.html#big-data-is-dead",
-    "href": "index.html#big-data-is-dead",
+    "objectID": "index.html#pipeline-dataops-complet",
+    "href": "index.html#pipeline-dataops-complet",
     "title": "Mise en production des projets de data science",
-    "section": "“Big Data is dead” ?",
-    "text": "“Big Data is dead” ?\n\nJordan Tigani : Big Data is dead\n\n“The big data frontier keeps receding”\n“Most people don’t have that much data”\n“Most data is rarely queried”\n\nPlaidoyer pour une parcimonie…\n\n… qui facilite la mise en production !"
+    "section": "Pipeline DataOps complet",
+    "text": "Pipeline DataOps complet\n\nIntégration des étapes dans un pipeline (DAG)\n\n\n\n\n\nSource : ubuntu.com\n\n\n\nEn pratique : utilisation d’un orchestrateur\n\nSur le SSP Cloud : Argo Workflows"
   },
   {
-    "objectID": "index.html#objectif",
-    "href": "index.html#objectif",
+    "objectID": "index.html#conclusion",
+    "href": "index.html#conclusion",
     "title": "Mise en production des projets de data science",
-    "section": "Objectif",
-    "text": "Objectif\n\nOn part d’un projet n’ayant pas suivi les bonnes pratiques…"
+    "section": "Conclusion",
+    "text": "Conclusion\n\nOn a construit un pipeline reproductible et automatisé\n\n\n\n\n\nSource : ibm.com\n\n\n\nComment tenir compte des spécificités du ML ?\n\nApproche MLOps: la semaine prochaine !"
   },
   {
-    "objectID": "index.html#objectif-1",
-    "href": "index.html#objectif-1",
+    "objectID": "index.html#mise-en-production",
+    "href": "index.html#mise-en-production",
     "title": "Mise en production des projets de data science",
-    "section": "Objectif",
-    "text": "Objectif\n\n… on finira le semestre avec un projet très ambitieux\nA l’arrivée:"
-  },
-  {
-    "objectID": "index.html#objectif-2",
-    "href": "index.html#objectif-2",
-    "title": "Mise en production des projets de data science",
-    "section": "Objectif",
-    "text": "Objectif\n\nLes premières applications sont les plus chronophages: rendre le projet conforme aux bonnes pratiques\n\nIndispensable pour pouvoir progresser plus tard"
+    "section": "Mise en production",
+    "text": "Mise en production\n\nConsignes sur le site du cours\n\nPartie 4️⃣ : automatisation de la livraison d’une application avec l’intégration continue\nPartie 5️⃣ : déploiement d’une application et industrialisation"
   },
   {
     "objectID": "index.html#et-la-suite",
     "href": "index.html#et-la-suite",
     "title": "Mise en production des projets de data science",
     "section": "Et la suite ?",
-    "text": "Et la suite ?\nTout le contenu du cours est disponible est librement accessible sur:\n👉️ https://ensae-reproductibilite.github.io/"
+    "text": "Et la suite ?\n\nDernière séance sur les enjeux spécifiques au cycle de vie des projets ML (MLOps) 🚀"
   }
 ]
