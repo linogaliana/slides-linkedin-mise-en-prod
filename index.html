@@ -217,12 +217,8 @@ Lino Galiana
 </div>
 
 </section>
-<section id="rappels-séance-1" class="slide level2" data-background-image="background.svg" data-background-size="contain">
-<h2>Rappels séance #1</h2>
-<p><br><br> <em>Retrouver les slides précédentes sur <a href="https://ensae-reproductibilite.github.io/slides/">ensae-reproductibilite.github.io/slides/</a></em></p>
-</section>
-<section id="rappel-séance-4" class="slide level2 nonincremental" data-background-image="background.svg" data-background-size="contain">
-<h2>Rappel séance #4</h2>
+<section id="rappels-séance-4" class="slide level2 nonincremental" data-background-image="background.svg" data-background-size="contain">
+<h2>Rappels séance #4</h2>
 <ul>
 <li class="fragment">On a trouvé comment construire une <span class="blue2"><strong>reproduction de l’ordinateur qui faisait tourner notre code</strong></span>
 <ul>
@@ -238,6 +234,19 @@ Lino Galiana
 <ul>
 <li class="fragment">Il nous reste à automatiser la livraison de celui-ci</li>
 </ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><em>Retrouver les slides précédentes sur <a href="https://ensae-reproductibilite.github.io/slides/">ensae-reproductibilite.github.io/slides/</a></em></p>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section>
@@ -551,12 +560,13 @@ Lino Galiana
 <li class="fragment">⚠️ Situé dans le dossier <code>.github/workflows/</code></li>
 </ul></li>
 </ul>
-<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>.github/workflows/ci.yaml</strong></pre>
+<pre><strong>.github/workflows/ci.yaml (début)</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename=".github/workflows/ci.yaml"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Build Docker image</span></span>
+<div class="sourceCode" id="cb6" data-filename=".github/workflows/ci.yaml (début)"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Build Docker image</span></span>
 <span id="cb6-2"><a></a></span>
 <span id="cb6-3"><a></a><span class="fu">on</span><span class="kw">:</span></span>
 <span id="cb6-4"><a></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
@@ -571,25 +581,31 @@ Lino Galiana
 <span id="cb6-13"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up QEMU</span></span>
 <span id="cb6-14"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/setup-qemu-action@v3</span></span>
 <span id="cb6-15"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up Docker Buildx</span></span>
-<span id="cb6-16"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/setup-buildx-action@v3</span></span>
-<span id="cb6-17"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Docker meta</span></span>
-<span id="cb6-18"><a></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> meta</span></span>
-<span id="cb6-19"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/metadata-action@v5</span></span>
-<span id="cb6-20"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb6-21"><a></a><span class="at">          </span><span class="fu">images</span><span class="kw">:</span><span class="at"> ensae-reproductibilite/api-titanic</span></span>
-<span id="cb6-22"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Login to Docker Hub</span></span>
-<span id="cb6-23"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/login-action@v3</span></span>
-<span id="cb6-24"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb6-25"><a></a><span class="at">          </span><span class="fu">username</span><span class="kw">:</span><span class="at"> ${{ secrets.DOCKERHUB_USERNAME }}</span></span>
-<span id="cb6-26"><a></a><span class="at">          </span><span class="fu">password</span><span class="kw">:</span><span class="at"> ${{ secrets.DOCKERHUB_TOKEN }}</span></span>
-<span id="cb6-27"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build and push</span></span>
-<span id="cb6-28"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/build-push-action@v5</span></span>
-<span id="cb6-29"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb6-30"><a></a><span class="at">          </span><span class="fu">push</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb6-31"><a></a><span class="at">          </span><span class="fu">tags</span><span class="kw">:</span><span class="at"> ${{ steps.meta.outputs.tags }}</span></span>
-<span id="cb6-32"><a></a><span class="at">          </span><span class="fu">labels</span><span class="kw">:</span><span class="at"> ${{ steps.meta.outputs.labels }}</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-16"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/setup-buildx-action@v3</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div><div class="column" style="width:50%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>.github/workflows/ci.yaml (fin)</strong></pre>
 </div>
+<div class="sourceCode" id="cb7" data-filename=".github/workflows/ci.yaml (fin)"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Docker meta</span></span>
+<span id="cb7-2"><a></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> meta</span></span>
+<span id="cb7-3"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/metadata-action@v5</span></span>
+<span id="cb7-4"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb7-5"><a></a><span class="at">          </span><span class="fu">images</span><span class="kw">:</span><span class="at"> ensae-reproductibilite/api-titanic</span></span>
+<span id="cb7-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Login to Docker Hub</span></span>
+<span id="cb7-7"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/login-action@v3</span></span>
+<span id="cb7-8"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb7-9"><a></a><span class="at">          </span><span class="fu">username</span><span class="kw">:</span><span class="at"> ${{ secrets.DOCKERHUB_USERNAME }}</span></span>
+<span id="cb7-10"><a></a><span class="at">          </span><span class="fu">password</span><span class="kw">:</span><span class="at"> ${{ secrets.DOCKERHUB_TOKEN }}</span></span>
+<span id="cb7-11"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Build and push</span></span>
+<span id="cb7-12"><a></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> docker/build-push-action@v5</span></span>
+<span id="cb7-13"><a></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb7-14"><a></a><span class="at">          </span><span class="fu">push</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb7-15"><a></a><span class="at">          </span><span class="fu">tags</span><span class="kw">:</span><span class="at"> ${{ steps.meta.outputs.tags }}</span></span>
+<span id="cb7-16"><a></a><span class="at">          </span><span class="fu">labels</span><span class="kw">:</span><span class="at"> ${{ steps.meta.outputs.labels }}</span></span></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
 </section>
 <section id="cicd-implémentation-sur-kubernetes" class="slide level2" data-background-image="background.svg" data-background-size="contain">
 <h2>CI/CD : implémentation sur <code>Kubernetes</code></h2>
