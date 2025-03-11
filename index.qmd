@@ -1,7 +1,7 @@
 ---
 title: Mise en production des projets de data science
 subtitle: |
-    [Cours de 3e année à l'ENSAE (Séances #2 et #3)]{.blue2}<br>
+    [Cours de 3e année à l'ENSAE (Séance #5)]{.blue2}<br>
     2024/2025
 author:
     - Romain Avouac
@@ -34,492 +34,157 @@ from: markdown+emoji
 <br><br>
 _Retrouver les slides précédentes sur [ensae-reproductibilite.github.io/slides/](https://ensae-reproductibilite.github.io/slides/)_
 
-## Rappels séance #1 {.nonincremental .smaller}
+## Rappel séance #4 {.nonincremental}
 
-* Sortir des _notebooks_ pour [__réduire le coût du passage de l'expérimentation à la production__]{.orange}
-  * Adopter des pratiques similaires à celles du monde du développement
-* Suivre les conventions d'un langage et adopter une structure lisible de projet
+* On a trouvé comment construire une [__reproduction de l'ordinateur qui faisait tourner notre code__]{.blue2}
+    * Avec `Docker` {{< fa brands docker >}}
 
-* Adopter une structure de code (niveau micro) et de projet (niveau macro) lisible
+. . .
 
-::: {.callout-tip}
-## En résumé
+* On ne va pas demander à chaque utilisateur de notre application de faire tourner ce code
 
-Les bonnes pratiques sont le premier pas vers des projets plus évolutifs, plus fiables et plus simples à maintenir
+. . .
+
+* Il nous reste à automatiser la livraison de celui-ci
+
+# :six: Introduction au format `YAML`
+
+## Qu'est-ce que le format `YAML` ?
+
+- [*YAML Ain't Markup Language*](https://yaml.org/)
+    - Langage de [**sérialisation**]{.blue2} de données
+    - Structure [**expressive**]{.blue2} mais [**lisible**]{.blue2}
+
+. . .
+
+```yaml
+---
+source: ambient-it.net
+domain:
+ - devops
+tutorial:
+  - yaml:
+      name: YAML Ain't Markup Language
+      born: 2001
+  - json:
+      name: JavaScript Object Notation
+      born: 2001
+  - xml:
+      name: Extensible Markup Language
+      born: 1996
+---
+```
+
+## Pourquoi s'intéresser au `YAML` ?
+
+- Outil standard pour les fichiers de [**configuration**]{.orange}
+    - [*The rise of the YAML engineer*](https://ep2024.europython.eu/session/the-rise-of-the-yaml-engineer/)
+
+- Simplicité et puissance du [**paradigme déclaratif**]{.orange}
+    - On décrit l'[**état final souhaité**]{.blue2}
+    - L'implémentation est laissée au [**moteur sous-jacent**]{.blue2}
+
+. . .
+
+```yaml
+kind: Pod
+metadata:
+  name: my-api-pod
+spec:
+  containers:
+  - name: api
+    image: my_dh_account/my_fast_api:0.0.1
+    env:
+    - name: MODEL
+      value: deepseek-ai/DeepSeek-R1
+```
+
+## `YAML` vs. `JSON`
+
+- `YAML` est un [**superset**]{.orange} de `JSON`
+    - Tout fichier `JSON` valide est un fichier `YAML` valide
+
+- Structure basée sur l'[**indentation**]{.orange}
+    - Favorise la [**lisibilité**]{.blue2}
+    - Plus prône aux [**erreurs**]{.blue2}
+
+. . .
+
+:::{layout-ncol="2"}
+
+```yaml
+user:
+  name: Alice
+  age: 30
+```
+
+```json
+{
+  "user": {
+    "name": "Alice",
+    "age": 30
+  }
+}
+```
 
 :::
 
-## Rappels séance #1 {.nonincremental}
+- Convertisseurs : [yaml-to-json](https://jsonformatter.org/yaml-to-json), [json-to-yaml](https://jsonformatter.org/json-to-yaml)
 
-Converger vers ce modèle :
+## Caractéristiques d'un fichier `YAML`
 
-![](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/img/environment_clean.png)
+- Extension : `.yaml` ou `.yml`
 
-## Rappels séance #1 {.nonincremental}
+- Structure [**hiérarchique**]{.orange} basée sur des [**paires clé-valeur**]{.orange}
 
-Converger vers un modèle où on distingue :
-
-* [__Code__]{.orange}: stocké sur `Git`
-* [__Configuration__]{.orange}:
-    * Environnement logiciel: à part (cf. séance #4)
-    * Variables d'environnement: fichier `.env` à part, non exposé grâce à `dotenv`
-* [__Données__]{.orange}:
-    * Exclues du contrôle de version
-    * Des formats plus adaptés que d'autres
-
-
-# :four: Traitement des données volumineuses
-
-## "The obligatory intro slide"
-
-![Source : [motherduck.com](https://motherduck.com/blog/big-data-is-dead/)](img/intro-big-data.png){fig-align="center" height=400}
-
-## Enjeux
-
-- Tendance à la [**massification**]{.orange} des données
-    - Relatif aux [**capacités de stockage et de traitement**]{.blue2}
+- Différents [**types**]{.blue2} à disposition (numériques, *strings*, booléens, listes)
 
 . . .
 
-![Source : [AI with Python](https://www.packtpub.com/product/artificial-intelligence-with-python-second-edition/9781839219535)](img/vvv.png){fig-align="center" height=350}
-
-## Choisir des technologies adaptées
-
-:one: [**Infrastructures**]{.orange} de données
-
-. . .
-
-:two: [**Formats**]{.orange} de données
-
-. . .
-
-:three: [***Frameworks***]{.orange} de traitement de données
-
-## :one: Infrastructures : historique {.scrollable}
-
-- Historiquement : stockage dans des [**bases de données**]{.orange}
-
-- 80's : essor des [bases de données relationnelles](https://fr.wikipedia.org/wiki/Base_de_donn%C3%A9es_relationnelle)
-    - Modèle de la [***data warehouse***]{.orange}
-
-. . .
-
-![Source : [corporatefinanceinstitute.com](https://corporatefinanceinstitute.com/resources/business-intelligence/data-warehousing/)](img/data-warehouse.png){height="250" fig-align="center"}
-
-## :one: Limite des *data warehouses*
-
-- Peu adaptées aux données *big data*
-    - Passage à l'échelle [**coûteux**]{.blue2}
-    - Limitées aux [**données structurées**]{.blue2}
-
-- 2010's : modèle du [***data lake***]{.orange}
-
-## :one: Le *data lake* {.scrollable}
-
-- Un stockage [**peu coûteux**]{.orange} fait pour des [**données**]{.orange}
-  - [**Volumineuses**]{.blue2}
-  - [**Brutes**]{.blue2}
-  - Issues de [**sources variées**]{.blue2}
-
-. . .
-
-![Source : [qlik.com](https://www.qlik.com/us/data-lake)](img/datalake.png){height="400" fig-align="center"}
-
-## :one: Le stockage objet
-
-- [**Standard**]{.orange} des *data lakes* dans le [***cloud***]{.orange}
-    - Implémentation dominante : [Amazon S3](https://aws.amazon.com/fr/s3/)
-    - Implémentation open-source : [MinIO](https://min.io/)
-
-. . .
-
-![Source : [min.io](https://min.io/)](img/minio.svg){height="300" fig-align="center"}
-
-## :two: Formats de données
-
-::: {.incremental}
-- Le choix d'un format de données répond à un [**arbitrage**]{.orange} entre plusieurs critères :
-    - [**Public cible**]{.blue2}
-    - [**Finalité**]{.blue2} (traitement, analyse, diffusion)
-    - [**Volumétrie**]{.blue2}
-    - [**Interopérabilité**]{.blue2}
-:::
-
-## :two: Limites des formats usuels
-
-- Les [**formats usuels**]{.orange} (`CSV`, `JSON`, `XML`) sont utiles pour :
-    - Le traitement de [**faibles volumes**]{.blue2} de données
-    - La [**diffusion**]{.blue2} de données
-
-- [**Limités**]{.orange} pour le traitement de [**données volumineuses**]{.orange}
-  - [**Non-compressés**]{.blue2} : espace disque élevé
-  - [**Orientés ligne**]{.blue2} : peu adaptés aux traitements analytiques
-
-## :two: Orientation ligne vs. orientation colonne {.scrollable}
-
-![Source : [towardsdatascience.com](https://towardsdatascience.com/demystifying-the-parquet-file-format-13adb0206705)](img/row-column.png){height="350" fig-align="center"}
-
-## :two: `Parquet` : propriétés
-
-- [**Orienté colonne**]{.orange}
-  - Adapté aux [**traitements analytiques**]{.blue2}
-  - Conçu pour être écrit une fois mais lu fréquemment
-
-- [**Optimisé**]{.orange}
-  - [**Compression**]{.blue2} (jusqu'à 87 % moins d'espace qu'un CSV)
-  - [**Lecture**]{.blue2} du fichier (jusqu'à 34x plus rapide qu'un CSV)
-
-- [**Interopérable**]{.orange}
-    - Gestion native des [**méta-données**]{.blue2}
-
-## :two: `Parquet` : partitionnement
-
-- [**Division en blocs**]{.orange} des données selon un [**critère**]{.orange}
-  - [**Optimise la lecture**]{.blue2} pour certaines *queries*
-
-. . .
-
-![Source : [datio.com](https://www.datio.com/iaas/understanding-the-data-partitioning-technique/)](img/partitions.png){fig-align="center"}
-
-## :three: Traitement *in-memory*
-
-- `Parquet` ne résout pas tout
-  - L'espace disque est optimisé
-  - Les données décompressées doivent [**passer en RAM**]{.blue2}
-
-- Le *framework* adapté dépend de la [**volumétrie**]{.orange}
-
-## :three: Données volumineuses
-
-- Calcul [***larger than memory* optimisé**]{.blue2}
-    - [Arrow](https://arrow.apache.org/overview/) : orientation fichier (`Parquet`)
-    - [DuckDB](https://duckdb.org/) : orientation base de données (`SQL`)
-
-- Autre avantage : [**interopérabilité**]{.blue2}
-
-. . .
-
-![Source : [Arrow](https://arrow.apache.org/overview/)](img/arrow-interoperability.png){fig-align="center"}
-
-## :three: Données massives
-
-- Calcul [**distribué**]{.blue2} sur un [**cluster**]{.blue2} de machines
-    - [Spark](https://spark.apache.org/)
-
-- Base : [**paradigme MapReduce**]{.blue2}
-
-. . .
-
-![Source : [nd.edu](https://www3.nd.edu/~pbui/teaching/cse.30331.fa16/challenge11.html)](img/mapreduce.png){fig-align="center" height="350"}
-
-## En résumé : pour traiter la volumétrie
-
-- Utiliser un [**format**]{.orange} de données adapté (`Parquet`)
-
-- Utiliser des [**outils**]{.orange} informatiques adaptés
-  - Suffisant la plupart du temps : [**calcul *larger than memory* optimisé**]{.blue2} (`Arrow` / `DuckDB`)
-  - Si volumétrie massive : [**calcul distribué**]{.blue2} (`Spark`)
-
-## "Big Data is dead" ?
-
-- Jordan Tigani : [Big Data is dead](https://motherduck.com/blog/big-data-is-dead/)
-    - "The big data frontier keeps receding"
-    - "Most people don't have that much data"
-    - "Most data is rarely queried"
-
-- Plaidoyer pour une [**parcimonie**]{.orange}...
-    - ... qui [**facilite la mise en production**]{.blue2} !
-
-
-# Illustration par la pratique
-
-## Objectif {.nonincremental}
-
-* On part d'un projet n'ayant pas suivi les bonnes pratiques...
-
-![](/drawio/starting_point_nobg.png){width=30%}
-
-
-## Objectif {.nonincremental}
-
-
-* ... on finira le semestre avec un projet très ambitieux
-
-* A l'arrivée:
-
-![](/drawio/end_point_nobg.png)
-
-
-## Objectif {.nonincremental}
-
-* Les premières applications sont les plus chronophages: rendre le projet conforme aux bonnes pratiques
-  * Indispensable pour pouvoir progresser plus tard
-
-![](https://inseefrlab.github.io/formation-bonnes-pratiques-git-R/slides/img/environment_clean.png)
-
-
-## Et la suite ?
-
-Tout le contenu du cours est disponible est librement accessible sur:
-
-👉️ [https://ensae-reproductibilite.github.io/](https://ensae-reproductibilite.github.io)
-
-
-<!-----------
-Prochaine publi
-
-# :five: Portabilité
-
-## "It works... on my machine" {.scrollable}
-
-- On a construit un projet [**lisible**]{.orange}, [**structuré**]{.orange} et [**versionné**]{.orange}
-
-- Peut-on [**partager**]{.orange} notre projet ?
-    - En théorie, oui !
-    - En pratique, c'est toujours plus compliqué...
-
-. . .
-
-![Source : [simply-the-test.blogspot.com](https://simply-the-test.blogspot.com/2010/05/it-works-on-my-machine.html)](img/IWOMM.jpg){fig-align="center" height=350}
-
-## Le critère de la portabilité
-
-- Un code ne vit jamais dans une bulle isolée, il contient en général de nombreuses [**adhérences**]{.orange}
-    - Des [**dépendances**]{.blue2}
-    - Des [**librairies système**]{.blue2}
-
-- Un code est [**portable**]{.orange} s'il peut être exécuté dans un environnement différent que celui du développement
-
-## Limites du mode de travail usuel
-
-- *Workflow* [**classique**]{.orange}
-    - Installer une distribution de `Python` sur son poste
-    - Développer un projet en installant les packages nécessaires
-    - Passer au projet suivant et ainsi de suite
-
-- Quels [**problèmes**]{.orange} peuvent se poser ?
-
-## Limites du mode de travail usuel
-
-- [**Conflits de version**]{.orange} : différents projets peuvent requérir des versions différentes d'un même *package*
-
-- [**Version de `Python` fixe**]{.orange}, celle de l'installation système
-
-- [**Reproductibilité limitée**]{.orange} : difficile de dire quel projet nécessite quel package
-
-- [**Portabilité limitée**]{.orange} : difficile de fixer dans un fichier les dépendances spécifiques à un projet
-
-## Comment favoriser la portabilité ?
-
-- Enjeu central pour la [**mise en production**]{.orange}
-    - Passer d'un [**environnement de développement**]{.blue2} à un [**environnement de production**]{.blue2}
-
-- Besoin de [**nouveaux outils**]{.orange}
-    - Les [**environnements virtuels**]{.blue2}
-    - Les [**conteneurs**]{.blue2}
-
-## Environnements virtuels : fonctionnement {.scrollable}
-
-- [**Dossier auto-suffisant**]{.orange} qui :
-    - contient un [**intepréteur**]{.blue2} `Python` et des [**packages**]{.blue2}
-    - est [**isolé**]{.orange} des autres environnements existants
-
-. . .
-
-![Source : [dataquest.io](https://www.dataquest.io/blog/a-complete-guide-to-python-virtual-environments/)](img/venv.png){fig-align="center" height=350}
-
-## Environnements virtuels : implémentations
-
-- Implémentation standard : [venv](https://docs.python.org/fr/3/library/venv.html)
-
-- Une implémentation populaire en data science : [conda](https://docs.conda.io/en/latest/)
-    - Également un *package manager* (comme [pip](https://pip.pypa.io/en/stable/getting-started/), mais multi-langages)
-
-- D'autres implémentations existent : [virtualenv](https://virtualenv.pypa.io/en/latest/), [pyenv](https://github.com/pyenv/pyenv)...
-
-## `venv` : utilisation
-
-- `venv` fait partie de la librairie standard de `Python`
-
-- Utilisation basique (sous `Linux`)
-    - [**Créer**]{.orange} un environnement : `python -m venv myenv`
-    - [**Activer**]{.orange} l'environnement : `source myenv/bin/activate`
-    - [**Installer**]{.orange} des packages : `pip install scikit-learn`
-    - [**Quitter**]{.orange} l'environnement : `deactivate`
-
-## Spécifier les dépendances
-
-- Développer dans un [**environnement virtuel**]{.orange} favorise :
-    - la [**reproductibilité**]{.blue2} : fixer les packages utilisés et leurs versions
-    - la [**portabilité**]{.blue2} : distribuer ces spécifications
-
-- [**Convention**]{.orange} : fichier `requirements.txt` à la [**racine**]{.blue2} du projet (à *commit* !)
-    - [**Génération**]{.blue2} : `pip freeze > requirements.txt`
-    - [**Installation**]{.blue2} : `pip install -r requirements.txt`
-
-## Le fichier `requirements.txt`
-
-```python
-beautifulsoup4==4.12.3
-expecttest!=0.2.0
-networkx>=3.0.0
-numpy
-pandas
+```yaml
+kind: Pod
+metadata:
+  name: my-api-pod
+spec:
+  containers:
+  - name: api
+    image: my_dh_account/my_fast_api:0.0.1
+    env:
+    - name: MODEL
+      value: deepseek-ai/DeepSeek-R1
+    - name: DEBUG
+      value: true
+    ports:
+    - containerPort: 8000
 ```
 
-- [**Arbitrage**]{.orange} à trouver entre :
-    - [**Reproductibilité**]{.blue2} : [**spécifier**]{.blue2} finement les versions
-    - [**Sécurité**]{.blue2} : laisser les versions [**évoluer**]{.blue2}
+## Validation et erreurs fréquentes
 
-## Environnements virtuels : limites
+- Principale erreur : mauvaise [**indentation**]{.orange}
+    - Utiliser [**2 espaces**]{.blue2} (pas de tabulation!)
 
-- [**Reproductibilité**]{.orange} :
-    - [**Version de `Python`**]{.blue2} non-gérée
-    - [**Librairies système**]{.blue2} non-gérées
+- Outils de [**validation**]{.orange} :
+    - [**Support natif**]{.blue2} dans la plupart des IDE
+    - [***Linters***]{.blue2} : [YAMLlint](https://yamllint.com)
 
-- Peu adaptés aux environnements de [**production**]{.orange} :
-    - Reproductibilité limitée -> [**portabilité limitée**]{.blue2}
-    - [**Lourdeur**]{.blue2} de gestion des environnements
+## `YAML` et l'approche `GitOps`
 
-## Le *gold-standard* de la portabilité
+- Le [**YAML**]{.orange} est le langage privilégié de l'[**approche GitOps**]{.orange}
+    - Les manifestes sont [**déclarés**]{.blue2} en `YAML` (paradigme [**infrastructure as code**]{.blue2})
+    - Les manifestes sont [**stockés**]{.blue2} sur un dépôt `Git` (approche [**GitOps**]{.blue2})
 
-- [**Idée**]{.orange} : au lieu de distribuer la recette pour recréer la bonne machine, peut-on [**distribuer directement la bonne machine**]{.orange} ?
-    - On ne peut pas distribuer des [**machines physiques**]{.blue2}
-    - Les [**machines virtuelles**]{.blue2} sont [**coûteuses**]{.blue2} à redistribuer
+- Cette approche a de nombreux avantages :
+    - [**Reproductibilité**]{.blue2}
+    - [**Traçabilité**]{.blue2}
+    - [**Automatisation**]{.blue2}
 
-- Les [**conteneurs**]{.orange} offrent le compromis idéal
 
-## Conteneurs vs. machines virtuelles
 
-![Source : [docker.com](https://www.docker.com/resources/what-container/)](img/docker-vm.png)
 
-## Conteneurs : implémentations
 
-- Plusieurs implémentations des conteneurs
-    - [**`Docker`**]{.blue2} est largement prédominant
 
-. . .
 
-![](img/docker.png){fig-align="center" height=200}
-
-## `Docker` : installation
-
-- `Docker` : outil en ligne de commande (CLI)
-    - [Instructions](https://docs.docker.com/get-docker/) selon le système d'exploitation
-    - Environnement "bac à sable" : [Play with Docker](https://labs.play-with-docker.com/)
-
-. . .
-
-![](img/playwithdocker.png){fig-align="center" height=350}
-
-## Le `Dockerfile`
-
-- Exemple : [conteneurisation d'une API avec FastAPI](https://fastapi.tiangolo.com/deployment/docker/)
-
-. . .
-
-```Dockerfile
-# Image Docker de base
-FROM python:3.11
-
-# Définition du répertoire de travail
-WORKDIR /code
-
-# Copie des fichiers nécessaires sur l'image
-COPY requirements.txt /code/requirements.txt
-
-# Installation des dépendances
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt && \
-    python -m spacy download en_core_web_sm
-
-COPY app/ code/app
-
-# Commande lancée par l'image au runtime
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers"]
-```
-
-## `Docker` : fonctionnement
-
-![Source : [k21academy.com](https://k21academy.com/docker-kubernetes/docker-and-kubernetes/)](img/docker-workflow.png){fig-align="center"}
-
-## `Docker` en pratique
-
-- Présentation détaillée sur la [page du cours](https://ensae-reproductibilite.github.io/website/chapters/portability.html#les-conteneurs)
-    - [**Concepts**]{.blue2} (*caching*, *buildtime/runtime*)
-    - [**Commandes**]{.blue2} essentielles
-    - [**Application**]{.blue2} à un exemple concret
-
-
-
-
-
-
-# Application
-
-## Portabilité du projet
-
-- Consignes sur le [site du cours](https://ensae-reproductibilite.github.io/website/chapters/application.html)
-    - Partie :three: : construction d’un projet [**portable**]{.orange} et [**reproductible**]{.orange}
-        - Construire un [**environnement virtuel**]{.blue2} pour le projet
-        - [**Conteneuriser**]{.blue2} l'application avec `Docker`
-
-
-
-
-
-
-
-# Partie :two: : mise en production
-
-## Le "mur de la production"
-
-- La majorité des projets "*data-driven*" [**ne délivrent pas de valeur**]{.blue2} ([1](https://sloanreview.mit.edu/projects/expanding-ais-impact-with-organizational-learning/), [2](https://hdsr.mitpress.mit.edu/pub/2fu65ujf/release/6), [3](https://www.researchgate.net/publication/346647451_Beyond_the_Hype_Why_Do_Data-Driven_Projects_Fail))
-
-- Comment [**dépasser le stade de l'expérimentation**]{.orange} ?
-
-## Mise en production
-
-- [**Mettre en production**]{.orange} : faire [**vivre**]{.blue2} une application dans l'espace de ses [**utilisateurs**]{.blue2}
-    - [**Servir**]{.orange} : [**déployer**]{.blue2} l'application dans un [**format pertinent**]{.blue2} auprès de ses utilisateurs potentiels
-    - [**Faire vivre**]{.orange} : gérer le [**cycle de vie**]{.blue2} et favoriser l'[**amélioration continue**]{.blue2}
-
-- [**Multiples dimensions**]{.orange} : connaissance métier, organisation, infrastructure, outils techniques..
-
-## Favoriser la continuité
-
-![Source : [ibm.com](https://public.dhe.ibm.com/software/data/sw-library/analytics/data-science-lifecycle/#model-implementation)](img/exploration-production.png){fig-align="center"}
-
-- [**Comment faire ?**]{.orange}
-    - Application des [**bonnes pratiques**]{.blue2} de développement
-    - Besoin de [**nouveaux concepts et outils**]{.blue2} : [DataOps](https://dataopsmanifesto.org/fr/)
-
-## Le DataOps
-
-- Origine : mouvement [DevOps](https://fr.wikipedia.org/wiki/Devops)
-
-. . .
-
-![Source : [syloe.com](https://www.syloe.com/expert-devops-automatisation-deploiements/)](img/devops.png){fig-align="center" height=300}
-
-- [**DataOps**]{.orange} : construction de [**pipelines de données**]{.blue2}
-
-- [**MLOps**]{.orange} : déploiement et maintenance de [**modèles de ML**]{.blue2}
-
-## Plan de la partie
-
-:six: [**Déploiement**]{.blue2}
-
-:seven: [**MLOps**]{.blue2}
-
-
-
-
-
-
-
-
-
-# :six: Déploiement
+# :seven: Déploiement
 
 ## Un sujet large
 
@@ -621,6 +286,8 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--proxy-he
 - Spécification : fichier `.yaml` qui paramétrise le *runner*
     - ⚠️ Situé dans le dossier `.github/workflows/`
 
+. . .
+
 ```{.yaml filename=".github/workflows/ci.yaml"}
 name: Build Docker image
 
@@ -656,13 +323,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 ```
 
-## CD : implémentation avec `ArgoCD`
-
-## CD : anatomie d'un fichier de CD
-
 ## CI/CD : implémentation sur `Kubernetes`
 
-![](img/ci-cd.png){fig-align="center" height=400}
+![](img/ci-cd.png){fig-align="center" height=300}
 
 ## Pipeline [***DataOps***]{.orange} complet
 
@@ -684,10 +347,7 @@ jobs:
 ![Source : [ibm.com](https://public.dhe.ibm.com/software/data/sw-library/analytics/data-science-lifecycle/#model-implementation)](img/exploration-production.png){fig-align="center" height=250}
 
 - Comment tenir compte des [**spécificités du ML**]{.orange} ?
-    - [**Approche MLOps**]{.blue2}
-
-
-
+    - [**Approche MLOps**]{.blue2}: la semaine prochaine !
 
 
 # Application
@@ -699,152 +359,7 @@ jobs:
     - Partie :five: : [**déploiement**]{.blue2} d'une application et [**industrialisation**]{.blue2}
 
 
+## Et la suite ?
 
+- Dernière séance sur les enjeux spécifiques au cycle de vie des projets ML (`MLOps`) 🚀
 
-
-
-# :seven: MLOps
-
-## Motivation
-
-- Intégrer :
-    - les [**principes DataOps**]{.orange}
-    - les [**spécificités**]{.orange} des projets de ML
-
-. . .
-
-![Source : [ml4devs.com](https://www.ml4devs.com/articles/mlops-machine-learning-life-cycle/)](img/mlops.png){fig-align="center" height=400}
-
-## MLOps : principes
-
-- [**Reproductibilité**]{.orange}
-
-- [**Contrôle de version**]{.orange}
-
-- [**Automatisation**]{.orange}
-
-- [**Collaboration**]{.orange}
-
-- [**Monitoring**]{.orange}
-
-## MLOps : implémentation
-
-- De nombreux [**frameworks**]{.orange} implémentent les principes du MLOps
-    - Catalogue du `SSP Cloud` : [MLFlow](https://mlflow.org/)
-
-- Avantages de `MLflow` :
-  - [**Open-source**]{.blue2}
-  - Couvre l'entièreté du [**cycle de vie**]{.blue2} d'un modèle ML
-  - [**Agnostique**]{.blue2} au package ML utilisé
-  - Intégration avec `Kubernetes`
-
-## `MLFlow` : vue d'ensemble
-
-![Source : [dzlab.github.io](https://dzlab.github.io/ml/2020/07/12/ml-ci-mlflow/)](img/mlflow-overview.png){fig-align="center" height=350}
-
-## `MLFlow` : Tracking server
-
-- "Une [**API**]{.orange} et une [**interface utilisateur**]{.orange} pour [**enregistrer**]{.orange} les paramètres, les versions du code, les métriques et les artefacts"
-
-. . .
-
-![Source : [Databricks](https://docs.databricks.com/en/mlflow/index.html)](img/mlflow-tracking.png){fig-align="center" height=400}
-
-## `MLFlow` : Models
-
-- "Une convention pour [**'packager'**]{.orange} des [**modèles**]{.orange} de *machine learning* sous plusieurs [**formes**]{.orange}"
-
-. . .
-
-![Source : [Dataiku](https://blog.dataiku.com/introducing-mlflow-saved-models)](img/mlflow-models.png){fig-align="center" height=400}
-
-## `MLFlow` : Model registry
-
-- "Un [**entrepôt centralisé de modèles**]{.orange}, un ensemble d'API et une interface utilisateur pour gérer [**collaborativement**]{.orange}  le cycle de vie complet d'un modèle MLflow"
-
-. . .
-
-![Source : [Databricks](https://www.databricks.com/blog/2019/10/17/introducing-the-mlflow-model-registry.html)](img/mlflow-model-registry.png){fig-align="center" height=400}
-
-## Servir le modèle (sans `MLFlow`)
-
-![](img/api-no-mlflow.png){fig-align="center"}
-
-## Servir le modèle (avec `MLFlow`)
-
-![](img/api-with-mlflow.png){fig-align="center"}
-
-## Suivi du modèle
-
-- Pourquoi [**surveiller**]{.orange} un modèle en production ?
-    - Détecter d'éventuels [**biais**]{.blue2} des données d'entraînement
-    - Détecter une [**instabilité**]{.blue2} du modèle
-    - [**Amélioration continue**]{.blue2} du modèle
-
-- ⚠️ Le mot [**surveillance**]{.orange} d'une application/modèle recouvre des [**réalités différentes**]{.blue2}
-
-## Surveillance selon l'informaticien
-
-- Surveiller une application est partie intégrante de l'approche [**DevOps**]{.orange}
-
-- Contrôle [**technique**]{.orange} de l'API :
-    - Latence
-    - Mémoire
-    - Utilisation disque
-    - ...
-
-## Surveillance selon le data scientist
-
-- Surveiller un modèle ML est partie intégrante de l'approche [**MLOps**]{.orange}
-
-- Contrôle [**méthodologique**]{.orange} du modèle
-
-- Performance en [**temps réel**]{.orange} du modèle souvent impossible, utilisation de proxys :
-    - [**Data drift**]{.blue2} : la distribution des données d'entrée change dans le temps
-    - [**Concept drift**]{.blue2} : la relation modélisée change dans le temps
-
-## Comment surveiller un modèle en production ?
-
-- Intégration de [**logs**]{.orange} dans l'API
-
-- Récupération et mise en forme des logs
-
-- Suivi de [**métriques**]{.orange} de ML
-
-- Mise en place d'un système d'[**alertes**]{.orange}
-
-## Résultat : un pipeline reproductible
-
-![Source: [martinfowler.com](martinfowler.com)](img/ML-model-lifecycle.png){fig-align="center"}
-
-
-
-
-
-
-# Application
-
-## MLOps
-
-- Consignes sur le [site du cours](https://ensae-reproductibilite.github.io/website/chapters/application.html)
-    - Partie :six: : application des [**principes MLOps**]{.blue2} avec `MLFlow`
-
-
-
-
-
-
-# Conclusion
-
-- La [**mise en production**]{.orange} met en lumière le [**rôle d'interface**]{.orange}
-    - De la [***data science***]{.blue2} : statistique et informatique
-    - Du [***data scientist***]{.blue2} : équipes métier et techniques
-
-- Enjeu : adopter des [**modes d'organisation plus continus**]{.orange}
-    - Des [**bonnes pratiques**]{.blue2} à appliquer [**le plus tôt possible**]{.blue2}
-    - [**Automatiser**]{.blue2} pour favoriser l'[**amélioration continue**]{.blue2}
-
-- ⚠️ Ce cours présente une [**vision technique**]{.orange} du sujet
-    - Les changements nécessaires sont plus larges !
-
------>
