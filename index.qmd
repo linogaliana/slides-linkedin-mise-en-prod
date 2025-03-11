@@ -29,12 +29,7 @@ css: custom.css
 from: markdown+emoji
 ---
 
-## Rappels séance #1
-
-<br><br>
-_Retrouver les slides précédentes sur [ensae-reproductibilite.github.io/slides/](https://ensae-reproductibilite.github.io/slides/)_
-
-## Rappel séance #4 {.nonincremental}
+## Rappels séance #4 {.nonincremental}
 
 * On a trouvé comment construire une [__reproduction de l'ordinateur qui faisait tourner notre code__]{.blue2}
     * Avec `Docker` {{< fa brands docker >}}
@@ -46,6 +41,10 @@ _Retrouver les slides précédentes sur [ensae-reproductibilite.github.io/slides
 . . .
 
 * Il nous reste à automatiser la livraison de celui-ci
+
+::: {.callout-note}
+_Retrouver les slides précédentes sur [ensae-reproductibilite.github.io/slides/](https://ensae-reproductibilite.github.io/slides/)_
+:::
 
 # :six: Introduction au format `YAML`
 
@@ -283,12 +282,16 @@ spec:
 
 ## CI : anatomie d'un fichier de CI
 
+
 - Spécification : fichier `.yaml` qui paramétrise le *runner*
     - ⚠️ Situé dans le dossier `.github/workflows/`
 
-. . .
 
-```{.yaml filename=".github/workflows/ci.yaml"}
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{.yaml filename=".github/workflows/ci.yaml (début)"}
 name: Build Docker image
 
 on:
@@ -305,6 +308,13 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{.yaml filename=".github/workflows/ci.yaml (fin)"}
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -322,6 +332,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 ```
+
+:::
+
+::::
 
 ## CI/CD : implémentation sur `Kubernetes`
 
